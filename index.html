@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>America's 250th Birthday Trivia Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #2D1870 0%, #4a3d7e 50%, #7C756D 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 2.5em;
+            color: #2D1870;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #7C756D;
+            font-weight: 500;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .welcome-screen h2 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.8em;
+            color: #2D1870;
+            margin-bottom: 20px;
+        }
+
+        .welcome-screen p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .rules-box {
+            background: linear-gradient(135deg, #f8f9ff 0%, #faf8f6 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .rules-box h3 {
+            font-family: 'Raleway', sans-serif;
+            color: #2D1870;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .rules-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rules-box li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .rules-box li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: #2D1870;
+            font-size: 1.2em;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2D1870 0%, #4a3d7e 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Raleway', sans-serif;
+            box-shadow: 0 4px 15px rgba(45, 24, 112, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 24, 112, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #7C756D 0%, #8d867d 100%);
+            box-shadow: 0 4px 15px rgba(124, 117, 109, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(124, 117, 109, 0.4);
+        }
+
+        .game-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2D1870;
+        }
+
+        .lives {
+            display: flex;
+            gap: 8px;
+            font-size: 1.5em;
+        }
+
+        .heart {
+            color: #ff4757;
+            transition: all 0.3s ease;
+        }
+
+        .heart.lost {
+            opacity: 0.2;
+            transform: scale(0.8);
+        }
+
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2D1870 0%, #4a3d7e 100%);
+            transition: width 0.1s linear;
+            border-radius: 10px;
+        }
+
+        .progress-fill.warning {
+            background: linear-gradient(90deg, #ff6b6b 0%, #ff4757 100%);
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #faf8f6 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            font-size: 0.9em;
+            color: #7C756D;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.6em;
+            color: #2D1870;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .answers-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 18px 24px;
+            border-radius: 12px;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            border-color: #2D1870;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #28a745;
+            animation: correctAnswer 0.5s ease;
+        }
+
+        .answer-btn.wrong {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-color: #dc3545;
+            animation: wrongAnswer 0.5s ease;
+        }
+
+        @keyframes correctAnswer {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes wrongAnswer {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        .speed-bonus-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            font-size: 1.5em;
+            font-weight: 700;
+            box-shadow: 0 10px 40px rgba(40, 167, 69, 0.4);
+            animation: speedBonusPopup 1s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes speedBonusPopup {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+
+        .end-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .end-screen h2 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 2.2em;
+            color: #2D1870;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: 700;
+            color: #2D1870;
+            margin: 20px 0;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .fun-fact-box {
+            background: linear-gradient(135deg, #f8f9ff 0%, #faf8f6 100%);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .fun-fact-box h3 {
+            font-family: 'Raleway', sans-serif;
+            color: #2D1870;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+
+        .fun-fact-box p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .end-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .already-played {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .already-played h2 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 2em;
+            color: #2D1870;
+            margin-bottom: 20px;
+        }
+
+        .already-played p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .comeback-time {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #7C756D;
+            margin: 20px 0;
+        }
+
+        .powered-by {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            color: #7C756D;
+            font-size: 0.9em;
+        }
+
+        .powered-by a {
+            color: #2D1870;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .powered-by a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .question-text {
+                font-size: 1.3em;
+            }
+
+            .game-header {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .final-score {
+                font-size: 2.2em;
+            }
+
+            .end-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .question-text {
+                font-size: 1.2em;
+            }
+
+            .answer-btn {
+                padding: 15px 18px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇺🇸 America's 250th Birthday Trivia Challenge</h1>
+            <div class="subtitle">Test Your Knowledge of American History</div>
+        </div>
+
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <h2>Welcome, Patriot!</h2>
+            <p>Think you know America's founding story? Challenge yourself with 7 questions about the birth of our nation!</p>
+            
+            <div class="rules-box">
+                <h3>How to Play</h3>
+                <ul>
+                    <li>Answer 7 questions of increasing difficulty</li>
+                    <li>You have 15 seconds per question</li>
+                    <li>Two strikes and you're out!</li>
+                    <li>Answer quickly for speed bonuses (up to 50% extra points)</li>
+                    <li>New questions daily - come back tomorrow for a fresh challenge!</li>
+                </ul>
+            </div>
+
+            <button class="btn" onclick="startGame()">Start Challenge</button>
+        </div>
+
+        <!-- Already Played Screen -->
+        <div class="already-played" id="alreadyPlayedScreen">
+            <h2>You've Already Played Today!</h2>
+            <p>Come back tomorrow for a fresh set of questions and a new challenge.</p>
+            <div class="comeback-time" id="comebackTime"></div>
+            <button class="btn btn-secondary" onclick="window.location.href='https://www.sphere-ed.org/collection/americas-250th-birthday'">Explore Sphere's 250th Collection</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="game-screen" id="gameScreen">
+            <div class="game-header">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="lives">
+                    <span class="heart" id="heart1">❤️</span>
+                    <span class="heart" id="heart2">❤️</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Time Remaining</span>
+                    <span id="timeLeft">15s</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">Question 1 of 7</div>
+                <div class="question-text" id="questionText"></div>
+                <span class="difficulty-badge" id="difficultyBadge"></span>
+            </div>
+
+            <div class="answers-grid" id="answersGrid"></div>
+        </div>
+
+        <!-- End Screen -->
+        <div class="end-screen" id="endScreen">
+            <h2 id="endTitle">Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0</div>
+            
+            <div class="fun-fact-box">
+                <h3>📜 Did You Know?</h3>
+                <p id="funFact"></p>
+            </div>
+
+            <div class="end-buttons">
+                <button class="btn" onclick="resetForTomorrow()">Play Again</button>
+                <button class="btn btn-secondary" onclick="window.location.href='https://www.sphere-ed.org/collection/americas-250th-birthday'">Explore Sphere's 250th Collection</button>
+            </div>
+
+            <div class="powered-by">
+                Powered by <a href="https://www.sphere-ed.org" target="_blank">Sphere Education Initiatives</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question Bank
+        const questionBank = {
+            easy: [
+                {
+                    question: "In what year was the Declaration of Independence signed?",
+                    answers: ["1776", "1787", "1765", "1791"],
+                    correct: 0
+                },
+                {
+                    question: "Who is known as the 'Father of the Constitution'?",
+                    answers: ["James Madison", "Thomas Jefferson", "George Washington", "Benjamin Franklin"],
+                    correct: 0
+                },
+                {
+                    question: "How many original colonies declared independence from Britain?",
+                    answers: ["13", "12", "15", "10"],
+                    correct: 0
+                },
+                {
+                    question: "Which document begins with 'We the People'?",
+                    answers: ["The Constitution", "The Declaration of Independence", "The Bill of Rights", "The Articles of Confederation"],
+                    correct: 0
+                },
+                {
+                    question: "Who was the first President of the United States?",
+                    answers: ["George Washington", "John Adams", "Thomas Jefferson", "Benjamin Franklin"],
+                    correct: 0
+                },
+                {
+                    question: "Where was the Declaration of Independence signed?",
+                    answers: ["Philadelphia", "Boston", "New York", "Washington D.C."],
+                    correct: 0
+                },
+                {
+                    question: "What is the first line of the Declaration of Independence (after the title)?",
+                    answers: ["When in the Course of human events", "We hold these truths to be self-evident", "Four score and seven years ago", "We the People"],
+                    correct: 0
+                }
+            ],
+            medium: [
+                {
+                    question: "What principle holds that government power comes from the consent of the governed?",
+                    answers: ["Popular Sovereignty", "Federalism", "Separation of Powers", "Judicial Review"],
+                    correct: 0
+                },
+                {
+                    question: "Who was the principal author of the Declaration of Independence?",
+                    answers: ["Thomas Jefferson", "John Adams", "Benjamin Franklin", "John Hancock"],
+                    correct: 0
+                },
+                {
+                    question: "How many amendments are in the Bill of Rights?",
+                    answers: ["10", "12", "15", "8"],
+                    correct: 0
+                },
+                {
+                    question: "What compromise at the Constitutional Convention balanced representation between large and small states?",
+                    answers: ["The Great Compromise (Connecticut Compromise)", "The Three-Fifths Compromise", "The Commerce Compromise", "The Federal Compromise"],
+                    correct: 0
+                },
+                {
+                    question: "Which Founding Father never served as President but was the first Treasury Secretary?",
+                    answers: ["Alexander Hamilton", "John Jay", "Samuel Adams", "Patrick Henry"],
+                    correct: 0
+                },
+                {
+                    question: "What year was the Constitution ratified?",
+                    answers: ["1788", "1776", "1791", "1789"],
+                    correct: 0
+                },
+                {
+                    question: "Which essays were written to support ratification of the Constitution?",
+                    answers: ["The Federalist Papers", "Common Sense", "The Anti-Federalist Papers", "The Declaration and Resolves"],
+                    correct: 0
+                }
+            ],
+            hard: [
+                {
+                    question: "What philosophical concept from John Locke most influenced the Declaration of Independence?",
+                    answers: ["Natural Rights (Life, Liberty, Property)", "The Social Contract", "Religious Tolerance", "Representative Democracy"],
+                    correct: 0
+                },
+                {
+                    question: "Which state was the last of the original 13 to ratify the Constitution?",
+                    answers: ["Rhode Island", "New York", "Virginia", "North Carolina"],
+                    correct: 0
+                },
+                {
+                    question: "Who wrote the Virginia Declaration of Rights, which influenced the Bill of Rights?",
+                    answers: ["George Mason", "Thomas Jefferson", "Patrick Henry", "James Madison"],
+                    correct: 0
+                },
+                {
+                    question: "What was the primary weakness of the Articles of Confederation that led to the Constitutional Convention?",
+                    answers: ["No power to tax or regulate commerce", "No executive branch", "No bill of rights", "Required unanimous consent for amendments"],
+                    correct: 0
+                },
+                {
+                    question: "Which Founder refused to sign the Constitution because it lacked a Bill of Rights?",
+                    answers: ["George Mason", "Patrick Henry", "Samuel Adams", "Richard Henry Lee"],
+                    correct: 0
+                },
+                {
+                    question: "What percentage of delegates needed to approve the Constitution for ratification?",
+                    answers: ["9 out of 13 states", "All 13 states", "2/3 of states", "Simple majority of states"],
+                    correct: 0
+                },
+                {
+                    question: "What enlightenment principle holds that no one is above the law, including government officials?",
+                    answers: ["Rule of Law", "Separation of Powers", "Checks and Balances", "Popular Sovereignty"],
+                    correct: 0
+                }
+            ]
+        };
+
+        // Fun Facts
+        const funFacts = [
+            "The Declaration of Independence was actually approved on July 2, 1776, but we celebrate on July 4th because that's when it was formally adopted!",
+            "Benjamin Franklin was 70 years old during the Constitutional Convention, making him the oldest Founding Father present.",
+            "The Constitution contains 4,543 words, making it the shortest written constitution of any major government in the world.",
+            "James Madison was only 5 feet 4 inches tall and weighed about 100 pounds, yet he's considered one of the most influential Founders!",
+            "The word 'democracy' does not appear in the Declaration of Independence or the Constitution. The Founders created a 'republic.'",
+            "George Washington was the only president who didn't live in the White House - it wasn't completed until after his presidency.",
+            "The Liberty Bell actually cracked during its first test ring and had to be recast twice before being hung in Independence Hall.",
+            "Alexander Hamilton was born in the Caribbean and was technically an immigrant, yet he became one of America's most influential Founding Fathers.",
+            "Thomas Jefferson and John Adams both died on July 4, 1826 - exactly 50 years after the Declaration of Independence was adopted!",
+            "The original Constitution is displayed under bulletproof glass filled with inert argon gas to preserve it for future generations."
+        ];
+
+        // Game State
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let lives = 2;
+        let timer = null;
+        let timeRemaining = 15;
+        let currentQuestions = [];
+        let questionStartTime = 0;
+
+        // Check if already played today
+        function checkIfPlayedToday() {
+            const lastPlayed = localStorage.getItem('lastPlayedDate');
+            const today = new Date().toDateString();
+            
+            if (lastPlayed === today) {
+                showAlreadyPlayed();
+                return true;
+            }
+            return false;
+        }
+
+        function showAlreadyPlayed() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('alreadyPlayedScreen').style.display = 'block';
+            
+            // Calculate time until midnight
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            const hoursUntil = Math.floor((tomorrow - now) / 1000 / 60 / 60);
+            const minutesUntil = Math.floor(((tomorrow - now) / 1000 / 60) % 60);
+            
+            document.getElementById('comebackTime').textContent = 
+                `Come back in ${hoursUntil}h ${minutesUntil}m for new questions!`;
+        }
+
+        // Seed-based randomization for daily consistency
+        function seededRandom(seed) {
+            const x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
+        function getDailySeed() {
+            const today = new Date();
+            return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+        }
+
+        function getDayOfWeek() {
+            return new Date().getDay(); // 0 = Sunday, 6 = Saturday
+        }
+
+        function selectDailyQuestions() {
+            const seed = getDailySeed();
+            const dayOfWeek = getDayOfWeek();
+            
+            // Determine difficulty distribution based on day of week
+            // Sunday (0) = easiest, Saturday (6) = hardest
+            let easyCount, mediumCount, hardCount;
+            
+            switch(dayOfWeek) {
+                case 0: // Sunday
+                    easyCount = 4; mediumCount = 2; hardCount = 1;
+                    break;
+                case 1: // Monday
+                    easyCount = 3; mediumCount = 3; hardCount = 1;
+                    break;
+                case 2: // Tuesday
+                    easyCount = 3; mediumCount = 2; hardCount = 2;
+                    break;
+                case 3: // Wednesday
+                    easyCount = 2; mediumCount = 3; hardCount = 2;
+                    break;
+                case 4: // Thursday
+                    easyCount = 2; mediumCount = 2; hardCount = 3;
+                    break;
+                case 5: // Friday
+                    easyCount = 1; mediumCount = 3; hardCount = 3;
+                    break;
+                case 6: // Saturday
+                    easyCount = 1; mediumCount = 2; hardCount = 4;
+                    break;
+            }
+            
+            const selected = [];
+            
+            // Select questions using seeded random
+            function selectFromDifficulty(difficulty, count) {
+                const available = [...questionBank[difficulty]];
+                for (let i = 0; i < count; i++) {
+                    const randomIndex = Math.floor(seededRandom(seed + selected.length) * available.length);
+                    selected.push({ ...available[randomIndex], difficulty });
+                    available.splice(randomIndex, 1);
+                }
+            }
+            
+            selectFromDifficulty('easy', easyCount);
+            selectFromDifficulty('medium', mediumCount);
+            selectFromDifficulty('hard', hardCount);
+            
+            return selected;
+        }
+
+        function startGame() {
+            if (checkIfPlayedToday()) {
+                return;
+            }
+            
+            currentQuestions = selectDailyQuestions();
+            currentQuestionIndex = 0;
+            score = 0;
+            lives = 2;
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            
+            updateScore();
+            updateLives();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endGame(true);
+                return;
+            }
+            
+            const question = currentQuestions[currentQuestionIndex];
+            
+            document.getElementById('questionNumber').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            // Set difficulty badge
+            const badge = document.getElementById('difficultyBadge');
+            badge.textContent = question.difficulty.toUpperCase();
+            badge.className = 'difficulty-badge difficulty-' + question.difficulty;
+            
+            // Randomize answer order
+            const answers = question.answers.map((answer, index) => ({ answer, isCorrect: index === question.correct }));
+            
+            // Fisher-Yates shuffle with consistent seed for the day
+            const seed = getDailySeed() + currentQuestionIndex;
+            for (let i = answers.length - 1; i > 0; i--) {
+                const j = Math.floor(seededRandom(seed + i) * (i + 1));
+                [answers[i], answers[j]] = [answers[j], answers[i]];
+            }
+            
+            // Display answers
+            const answersGrid = document.getElementById('answersGrid');
+            answersGrid.innerHTML = '';
+            
+            answers.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = item.answer;
+                button.onclick = () => selectAnswer(item.isCorrect, button);
+                answersGrid.appendChild(button);
+            });
+            
+            // Start timer
+            timeRemaining = 15;
+            questionStartTime = Date.now();
+            updateTimer();
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                timeRemaining -= 0.1;
+                updateTimer();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    timeOut();
+                }
+            }, 100);
+        }
+
+        function updateTimer() {
+            const percentage = (timeRemaining / 15) * 100;
+            const fill = document.getElementById('progressFill');
+            fill.style.width = percentage + '%';
+            
+            document.getElementById('timeLeft').textContent = Math.ceil(timeRemaining) + 's';
+            
+            if (timeRemaining <= 5) {
+                fill.classList.add('warning');
+            } else {
+                fill.classList.remove('warning');
+            }
+        }
+
+        function selectAnswer(isCorrect, button) {
+            clearInterval(timer);
+            
+            // Disable all buttons
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                
+                // Calculate score
+                const question = currentQuestions[currentQuestionIndex];
+                let basePoints = question.difficulty === 'easy' ? 10 : 
+                                question.difficulty === 'medium' ? 20 : 30;
+                
+                // Speed bonus (up to 50%)
+                const speedBonus = Math.floor(basePoints * 0.5 * (timeRemaining / 15));
+                const totalPoints = basePoints + speedBonus;
+                
+                score += totalPoints;
+                updateScore();
+                
+                // Show speed bonus notification if earned
+                if (speedBonus > 0) {
+                    showSpeedBonus(speedBonus);
+                }
+                
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1500);
+            } else {
+                button.classList.add('wrong');
+                lives--;
+                updateLives();
+                
+                if (lives <= 0) {
+                    setTimeout(() => endGame(false), 1500);
+                } else {
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        loadQuestion();
+                    }, 1500);
+                }
+            }
+        }
+
+        function timeOut() {
+            lives--;
+            updateLives();
+            
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (lives <= 0) {
+                setTimeout(() => endGame(false), 1000);
+            } else {
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1000);
+            }
+        }
+
+        function showSpeedBonus(bonus) {
+            const notification = document.createElement('div');
+            notification.className = 'speed-bonus-notification';
+            notification.textContent = `⚡ +${bonus} Speed Bonus!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 1000);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function updateLives() {
+            document.getElementById('heart1').classList.toggle('lost', lives < 2);
+            document.getElementById('heart2').classList.toggle('lost', lives < 1);
+        }
+
+        function endGame(completed) {
+            clearInterval(timer);
+            
+            // Mark as played today
+            localStorage.setItem('lastPlayedDate', new Date().toDateString());
+            localStorage.setItem('todayScore', score);
+            
+            document.getElementById('gameScreen').style.display = 'none';
+            document.getElementById('endScreen').style.display = 'block';
+            
+            document.getElementById('endTitle').textContent = 
+                completed ? '🎉 Congratulations!' : '💪 Good Try!';
+            document.getElementById('finalScore').textContent = score + ' points';
+            
+            // Show random fun fact
+            const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+            document.getElementById('funFact').textContent = randomFact;
+        }
+
+        function resetForTomorrow() {
+            location.reload();
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            if (!checkIfPlayedToday()) {
+                document.getElementById('welcomeScreen').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
